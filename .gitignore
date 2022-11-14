@@ -1,129 +1,102 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+from tkinter import *
+from tkinter import messagebox
 
-# C extensions
-*.so
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+def new_task():
+    task = my_entry.get()
+    if task != "":
+        lb.insert(END, task)
+        my_entry.delete(0, "end")
+    else:
+        messagebox.showwarning("warning", "Please enter some task.")
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+def delete_task():
+    lb.delete(ANCHOR)
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
 
-# Translations
-*.mo
-*.pot
+ws = Tk()
+ws.geometry('600x550+500+200')
+ws.title('TO-DO-LIST')
+ws.config(bg='#c9a0dc')
+ws.resizable(width=False, height=False)
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
 
-# Flask stuff:
-instance/
-.webassets-cache
+frame = Frame(ws)
+frame.pack(pady=10)
 
-# Scrapy stuff:
-.scrapy
 
-# Sphinx documentation
-docs/_build/
+lb = Listbox(
+    frame,
+    width=40,
+    height=10,
+    font=('Times', 18),
+    bd=0,
+    fg='#464646',
+    highlightthickness=0,
+    selectbackground='#9400d3',
+    activestyle="none",
+)
 
-# PyBuilder
-target/
 
-# Jupyter Notebook
-.ipynb_checkpoints
+lb.config(bg='#ffe0e5')
+lb.pack(side=LEFT, fill=BOTH)
 
-# IPython
-profile_default/
-ipython_config.py
 
-# pyenv
-.python-version
+task_list = [
+    '*пополните ваш список дел*<3'
+]
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
+for item in task_list:
+    lb.insert(END, item)
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
 
-# SageMath parsed files
-*.sage.py
+sb = Scrollbar(frame)
+sb.pack(side=RIGHT, fill=BOTH)
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
-# Spyder project settings
-.spyderproject
-.spyproject
+lb.config(yscrollcommand=sb.set)
+sb.config(command=lb.yview)
 
-# Rope project settings
-.ropeproject
 
-# mkdocs documentation
-/site
+my_entry = Entry(
+    ws,
+    font=('times', 30)
+)
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
 
-# Pyre type checker
-.pyre/
+my_entry.pack(pady=20)
+
+
+button_frame = Frame(ws)
+button_frame.pack(pady=20)
+
+
+add_task_btn = Button(
+    button_frame,
+    text='Добавить',
+    font='times 14',
+    bg='#008000',
+    padx=50,
+    pady=15,
+    command=new_task
+)
+
+add_task_btn.pack(fill=BOTH, expand=True, side=LEFT)
+
+
+delete_task_btn = Button(
+    button_frame,
+    text='Удалить',
+    font='times 14',
+    bg='#ff0000',
+    padx=50,
+    pady=15,
+    command=delete_task
+)
+
+delete_task_btn.pack(fill=BOTH, expand=True, side=LEFT)
+
+
+ws.mainloop()
